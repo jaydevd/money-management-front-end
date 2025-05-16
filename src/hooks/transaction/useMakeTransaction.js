@@ -1,0 +1,18 @@
+import axios from "axios";
+
+const useMakeTransaction = async (body) => {
+    try {
+        const token = localStorage.getItem("token");
+
+        const result = await axios.post('http://localhost:5000/borrower/transaction', body, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        });
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export default useMakeTransaction;
