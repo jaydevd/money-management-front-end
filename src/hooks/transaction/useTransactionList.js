@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 
 const useTransactionList = () => {
     const [transactions, setTransactions] = useState([]);
-    const [total, setTotal] = useState(0);
+    const [totalTransactions, setTotalTransactions] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
             const page = 1;
-            const limit = 10;
+            const limit = 20;
 
             const token = localStorage.getItem('token');
 
@@ -22,11 +22,11 @@ const useTransactionList = () => {
             const count = result.data.data.count;
 
             setTransactions(transactions);
-            setTotal(count);
+            setTotalTransactions(count);
         }
         fetchData();
     }, [])
-    return { transactions, total };
+    return { transactions, totalTransactions };
 }
 
 export default useTransactionList;

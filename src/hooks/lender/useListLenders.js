@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 const useListLenders = () => {
     const [lenders, setLenders] = useState([]);
-    const [total, setTotal] = useState(0);
+    const [totalLenders, setTotalLenders] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -22,11 +22,11 @@ const useListLenders = () => {
             const count = result.data.data.count;
 
             setLenders(lenders);
-            setTotal(count);
+            setTotalLenders(count);
         }
         fetchData();
     }, [])
-    return { lenders, total };
+    return { lenders, totalLenders };
 }
 
 export default useListLenders;

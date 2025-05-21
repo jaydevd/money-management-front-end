@@ -2,8 +2,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 const useListBorrowers = () => {
+
     const [borrowers, setBorrowers] = useState([]);
-    const [total, setTotal] = useState(0);
+    const [totalBorrowers, setTotalBorrowers] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -22,11 +23,11 @@ const useListBorrowers = () => {
             const count = result.data.data.count;
 
             setBorrowers(borrowers);
-            setTotal(count);
+            setTotalBorrowers(count);
         }
         fetchData();
     }, [])
-    return { borrowers, total };
+    return { borrowers, totalBorrowers };
 }
 
 export default useListBorrowers;

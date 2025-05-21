@@ -16,6 +16,7 @@ const useLogIn = async (data) => {
 
     } catch (error) {
         console.log(error);
+        localStorage.clear();
     }
 }
 
