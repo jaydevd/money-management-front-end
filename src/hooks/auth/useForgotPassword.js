@@ -2,10 +2,7 @@ import axios from "axios";
 
 const useForgotPassword = async ({ email }) => {
     try {
-        console.log(email);
-        const url = 'http://localhost:5173/auth/reset-password';
-        const response = await axios.post(`http://localhost:5000/auth/forgot-password`, { email, url });
-
+        const response = await axios.post(`http://localhost:5000/auth/forgot-password`, { email });
         localStorage.clear();
 
         return response;

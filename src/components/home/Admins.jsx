@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useInviteAdmin from "../../hooks/admin/useInviteAdmin";
+import Pagination from "../common/Pagination";
 import useListAdmins from './../../hooks/admin/useListAdmins';
 
 const Admins = () => {
     const [showInviteAdmin, setShowInviteAdmin] = useState(false);
     const { register, handleSubmit } = useForm();
-    const { admins, totalAdmins } = useListAdmins();
     const [message, setMessage] = useState(null);
+
+    const [page, setPage] = useState(1);
+    const limit = 10; // items per page
+    const { admins, totalAdmins } = useListAdmins(page, limit);
 
     useEffect(() => {
         if (message != null) {
@@ -97,7 +101,8 @@ const Admins = () => {
                     </div>
                 )
             }
-        </div >
+            <Pagination page={page} setPage={setPage} totalItems={totalAdmins} limit={limit} />
+        </div>
     );
 }
 

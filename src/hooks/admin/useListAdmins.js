@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 const useListAdmins = () => {
     const [admins, setAdmins] = useState([]);
-    const [total, setTotal] = useState(0);
+    const [totalAdmins, setTotalAdmins] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -14,7 +14,7 @@ const useListAdmins = () => {
 
             const result = await axios.get(`http://localhost:5000/admin/list?page=${page}&limit=${limit}`, {
                 headers: {
-                    authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`
                 }
             });
 
@@ -22,11 +22,11 @@ const useListAdmins = () => {
             const count = result.data.data.count;
 
             setAdmins(admins);
-            setTotal(count);
+            setTotalAdmins(count);
         }
         fetchData();
     }, [])
-    return { admins, total };
+    return { admins, totalAdmins };
 }
 
 export default useListAdmins;

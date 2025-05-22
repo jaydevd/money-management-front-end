@@ -1,32 +1,34 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const useListLenders = () => {
+const useListLenders = (page, limit) => {
     const [lenders, setLenders] = useState([]);
     const [totalLenders, setTotalLenders] = useState(0);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const page = 1;
-            const limit = 10;
+        const fetchLenders = async () => {
+            try {
 
-            const token = localStorage.getItem('token');
+                const token = localStorage.getItem("token");
 
-            const result = await axios.get(`http://localhost:5000/lender/list?page=${page}&limit=${limit}`, {
-                headers: {
-                    authorization: `Bearer ${token}`
-                }
-            });
+                const response = await axios.get(`http://localhost:5000/lender/list?page=${page}&limit=${limit}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
 
-            const lenders = result.data.data.lenders;
-            const count = result.data.data.count;
+                setLenders(response.data.data.lenders);
+                setTotalLenders(response.data.data.count);
 
-            setLenders(lenders);
-            setTotalLenders(count);
-        }
-        fetchData();
-    }, [])
+            } catch (error) {
+                console.error('Error fetching lenders:', error);
+            }
+        };
+
+        fetchLenders();
+    }, [page, limit]);
+
     return { lenders, totalLenders };
-}
+};
 
 export default useListLenders;

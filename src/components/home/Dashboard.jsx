@@ -4,9 +4,9 @@ import useTransactionList from "../../hooks/transaction/useTransactionList";
 
 const Dashboard = () => {
     const admin = JSON.parse(localStorage.getItem("admin"));
-    const { borrowers, totalBorrowers } = useListBorrowers();
-    const { lenders, totalLenders } = useListLenders();
-    const { transactions, totalTransactions } = useTransactionList();
+    const { borrowers, totalBorrowers } = useListBorrowers(0, 0);
+    const { lenders, totalLenders } = useListLenders(0, 0);
+    const { transactions, totalTransactions } = useTransactionList(0, 0);
 
     return (
         <div>

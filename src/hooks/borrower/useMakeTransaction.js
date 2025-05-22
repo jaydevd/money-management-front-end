@@ -7,7 +7,7 @@ const useMakeTransaction = async (body) => {
 
         const result = await axios.post('http://localhost:5000/borrower/transaction/pay', body, {
             headers: {
-                authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`
             }
         });
 

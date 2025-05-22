@@ -6,7 +6,7 @@ const useAddBorrower = async (body) => {
 
         const result = await axios.post('http://localhost:5000/borrower/add', body, {
             headers: {
-                authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`
             }
         });
         console.log(result);

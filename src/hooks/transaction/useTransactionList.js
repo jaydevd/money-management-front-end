@@ -14,7 +14,7 @@ const useTransactionList = () => {
 
             const result = await axios.get(`http://localhost:5000/transaction/list?page=${page}&limit=${limit}`, {
                 headers: {
-                    authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`
                 }
             });
 

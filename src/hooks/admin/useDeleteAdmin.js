@@ -6,7 +6,7 @@ const useDeleteAdmin = async (body) => {
 
         const result = await axios.post('http://localhost:5000/admin/delete', body, {
             headers: {
-                authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`
             }
         });
         console.log(result);

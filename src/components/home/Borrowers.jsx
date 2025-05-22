@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import Pagination from "../common/Pagination";
 import useAddBorrower from './../../hooks/borrower/useAddBorrower';
 import useListBorrowers from './../../hooks/borrower/useListBorrowers';
 import useMakeTransaction from './../../hooks/borrower/useMakeTransaction';
@@ -10,8 +11,11 @@ const Borrowers = () => {
     const [showTransaction, setShowTransaction] = useState(false);
     const { register, handleSubmit } = useForm();
     const users = useGetUsers();
-    const { borrowers, totalBorrowers } = useListBorrowers();
     const [message, setMessage] = useState(null);
+
+    const [page, setPage] = useState(1);
+    const limit = 10; // items per page
+    const { borrowers, totalBorrowers } = useListBorrowers(page, limit);
 
     useEffect(() => {
         if (message != null) {
@@ -151,6 +155,7 @@ const Borrowers = () => {
                     </div>
                 </div>
             )}
+            <Pagination page={page} setPage={setPage} totalItems={totalBorrowers} limit={limit} />
         </div>
     );
 }

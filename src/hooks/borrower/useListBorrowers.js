@@ -15,7 +15,7 @@ const useListBorrowers = () => {
 
             const result = await axios.get(`http://localhost:5000/borrower/list?page=${page}&limit=${limit}`, {
                 headers: {
-                    authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`
                 }
             });
 

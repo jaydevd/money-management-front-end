@@ -7,7 +7,7 @@ const useLogOut = async () => {
 
         await axios.post("http://localhost:5000/auth/logout", null, {
             headers: {
-                authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`
             }
         });
 

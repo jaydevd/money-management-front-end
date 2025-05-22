@@ -30,9 +30,7 @@ const ForgotPassword = () => {
     const onSubmit = async (data) => {
         try {
 
-            console.log(data);
             const response = await useForgotPassword(data);
-
             navigate('/auth/login', { state: { message: "Please check your mail inbox to reset the password", type: "green" } });
 
         } catch (error) {

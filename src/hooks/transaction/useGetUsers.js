@@ -12,7 +12,7 @@ const useGetUsers = () => {
 
                 const result = await axios.get(`http://localhost:5000/drop-down/users`, {
                     headers: {
-                        authorization: `Bearer ${token}`
+                        Authorization: `Bearer ${token}`
                     }
                 });
 
