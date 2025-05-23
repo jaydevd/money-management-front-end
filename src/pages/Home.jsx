@@ -10,7 +10,7 @@ import useLogOut from './../hooks/auth/useLogOut';
 const Home = () => {
     const [activeTab, setActiveTab] = useState('Dashboard');
     const [sidebarOpen, setSidebarOpen] = useState(true);
-    const admin = JSON.parse(localStorage.getItem("admin"));
+    const admin = JSON.parse(sessionStorage.getItem("admin"));
 
     const navigate = useNavigate();
 
@@ -33,11 +33,13 @@ const Home = () => {
 
     const onLogOut = async () => {
         try {
+
             const response = await useLogOut();
             navigate('/auth/login', { state: { message: "Logged out successfully!", type: "green" } });
+
         } catch (error) {
             console.log(error);
-            navigate('/', { state: { message: "Failed to log out!", type: "red" } });
+            navigate('/auth/login', { state: { message: "Failed to log out!", type: "red" } });
         }
     }
 

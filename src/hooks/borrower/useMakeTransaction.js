@@ -1,17 +1,20 @@
 import axios from "axios";
+import getCookie from "../../helpers/getCookie";
 
 const useMakeTransaction = async (body) => {
     try {
-        const token = localStorage.getItem("token");
+
         body['date'] = Math.floor(+Date.parse(body.date) / 1000);
 
-        const result = await axios.post('http://localhost:5000/borrower/transaction/pay', body, {
+        const token = getCookie("token");
+
+        const response = await axios.post('http://localhost:5000/borrower/transaction/pay', body, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         });
 
-        return result;
+        return response;
     } catch (error) {
         console.log(error);
     }

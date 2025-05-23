@@ -1,31 +1,31 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import getCookie from "../../helpers/getCookie";
 
-const useListAdmins = () => {
+const useListAdmins = (page, limit) => {
     const [admins, setAdmins] = useState([]);
     const [totalAdmins, setTotalAdmins] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
-            const page = 1;
-            const limit = 10;
 
-            const token = localStorage.getItem('token');
+            const token = getCookie("token");
 
-            const result = await axios.get(`http://localhost:5000/admin/list?page=${page}&limit=${limit}`, {
+            const response = await axios.get(`http://localhost:5000/admin/list?page=${page}&limit=${limit}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
 
-            const admins = result.data.data.admins;
-            const count = result.data.data.count;
+            const admins = response.data.data.admins;
+            const count = response.data.data.count;
 
             setAdmins(admins);
             setTotalAdmins(count);
         }
         fetchData();
-    }, [])
+    }, []);
+
     return { admins, totalAdmins };
 }
 

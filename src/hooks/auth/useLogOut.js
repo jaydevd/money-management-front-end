@@ -1,23 +1,29 @@
 import axios from "axios";
+import getCookie from "../../helpers/getCookie";
 
 const useLogOut = async () => {
     try {
 
-        const token = localStorage.getItem("token");
+        const token = getCookie("token");
+        console.log(token);
 
-        await axios.post("http://localhost:5000/auth/logout", null, {
+        const response = await axios.post("http://localhost:5000/auth/logout", null, {
             headers: {
-                Authorization: `Bearer ${token}`
+                authorization: `Bearer ${token}`
             }
         });
 
-        localStorage.clear();
+        sessionStorage.clear();
 
-        return true;
+        const now = new Date();
+        now.setTime(now.getTime() + 1 * 1000);
+        const tokenExpiry = now.toUTCString();
+
+        document.cookie = `token=; expires=${tokenExpiry}; path=/`;
+        return response;
 
     } catch (error) {
         console.log(error);
-        return false;
     }
 }
 

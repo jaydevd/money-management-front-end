@@ -19,7 +19,8 @@ function App() {
               <Home />
             </ProtectedRoute>
           } />
-          <Route path="/auth">
+          <Route path="/auth" >
+            <Route path="/auth/" element={<NotFound />} />
             <Route path="/auth/forgot-password" element={<ForgotPassword />} />
             <Route path="/auth/reset-password/:id/:token" element={
               <VerifyLink>

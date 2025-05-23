@@ -1,8 +1,9 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import getCookie from '../../helpers/getCookie';
 import Pagination from '../common/Pagination';
 import useAddLender from './../../hooks/lender/useAddLender';
-import useListLenders from './../../hooks/lender/useListLenders';
 import useMakeTransaction from './../../hooks/lender/useMakeTransaction';
 import useGetUsers from './../../hooks/transaction/useGetUsers';
 
@@ -10,12 +11,38 @@ const Lenders = () => {
 
     const [showAddLender, setShowAddLender] = useState(false);
     const [showTransaction, setShowTransaction] = useState(false);
+
     const { register, handleSubmit } = useForm();
     const users = useGetUsers();
 
+    const [lenders, setLenders] = useState([]);
+    const [totalLenders, setTotalLenders] = useState(0);
+
     const [page, setPage] = useState(1);
     const limit = 10; // items per page
-    const { lenders, totalLenders } = useListLenders(page, limit);
+
+    useEffect(() => {
+        const fetchLenders = async () => {
+            try {
+
+                const token = getCookie("token");
+
+                const response = await axios.get(`http://localhost:5000/lender/list?page=${page}&limit=${limit}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+                setLenders(response.data.data.lenders);
+                setTotalLenders(response.data.data.count);
+
+            } catch (error) {
+                console.error('Error fetching lenders:', error);
+            }
+        };
+
+        fetchLenders();
+    }, [page, limit]);
 
     const [message, setMessage] = useState(null);
 
@@ -90,6 +117,7 @@ const Lenders = () => {
                             <th className="p-4 whitespace-nowrap">Remaining Amount</th>
                             <th className="p-4 whitespace-nowrap">Due Amount</th>
                             <th className="p-4 whitespace-nowrap">Total Amount</th>
+                            <th className="p-4 whitespace-nowrap">Date</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -103,6 +131,7 @@ const Lenders = () => {
                                     <td className="p-4 whitespace-nowrap">{lender.remaining_amount}</td>
                                     <td className="p-4 whitespace-nowrap">{lender.due_amount}</td>
                                     <td className="p-4 whitespace-nowrap">{lender.total_amount}</td>
+                                    <td className="p-4 whitespace-nowrap">{(new Date(lender.date * 1000).toISOString().slice(0, 10))}</td>
                                 </tr>
                             ))
                         ) : (

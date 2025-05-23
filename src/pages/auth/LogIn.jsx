@@ -1,7 +1,7 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
+import useLogIn from "../../hooks/auth/useLogIn";
 
 const LogIn = () => {
     const navigate = useNavigate();
@@ -30,14 +30,8 @@ const LogIn = () => {
 
     const onSubmit = async (data) => {
         try {
-            const result = await axios.post('http://localhost:5000/auth/login', data);
 
-            const token = result.data.data.token;
-            const admin = result.data.data.adminDetails;
-
-            localStorage.setItem("token", token);
-            localStorage.setItem("admin", JSON.stringify(admin));
-
+            const response = await useLogIn(data);
             navigate('/');
 
         } catch (error) {

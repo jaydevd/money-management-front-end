@@ -1,25 +1,23 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import getCookie from "../../helpers/getCookie";
 
-const useTransactionList = () => {
+const useTransactionList = (page, limit) => {
     const [transactions, setTransactions] = useState([]);
     const [totalTransactions, setTotalTransactions] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
-            const page = 1;
-            const limit = 20;
 
-            const token = localStorage.getItem('token');
-
-            const result = await axios.get(`http://localhost:5000/transaction/list?page=${page}&limit=${limit}`, {
+            const token = getCookie("token");
+            const response = await axios.get(`http://localhost:5000/transaction/list?page=${page}&limit=${limit}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
 
-            const transactions = result.data.data.transactions;
-            const count = result.data.data.count;
+            const transactions = response.data.data.transactions;
+            const count = response.data.data.count;
 
             setTransactions(transactions);
             setTotalTransactions(count);

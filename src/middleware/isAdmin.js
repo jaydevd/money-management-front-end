@@ -1,7 +1,15 @@
-const isAdmin = () => {
-    const token = localStorage.getItem("token");
+import getCookie from "../helpers/getCookie";
 
-    return token !== null;
+const isAdmin = () => {
+    try {
+
+        const token = getCookie("token");
+        if (!token) return false;
+        return true;
+
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export default isAdmin;

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import getCookie from "../../helpers/getCookie";
 
 const useGetUsers = () => {
     const [users, setUsers] = useState([]);
@@ -8,18 +9,19 @@ const useGetUsers = () => {
         const fetchData = async () => {
 
             try {
-                const token = localStorage.getItem('token');
 
-                const result = await axios.get(`http://localhost:5000/drop-down/users`, {
+                const token = getCookie("token");
+                const response = await axios.get(`http://localhost:5000/drop-down/users`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
 
-                const data = result.data.data;
+                const data = response.data.data;
                 setUsers(data);
 
                 return data;
+
             } catch (error) {
                 console.log(error);
             }

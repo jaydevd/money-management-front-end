@@ -1,16 +1,18 @@
 import axios from "axios";
+import getCookie from "../../helpers/getCookie";
 
 const useInviteAdmin = async (body) => {
     try {
-        const token = localStorage.getItem("token");
 
-        const result = await axios.post('http://localhost:5000/admin/invite', body, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+        const token = getCookie("token");
+
+        const response = await axios.post('http://localhost:5000/admin/invite', body, {
+            headers: `Bearer ${token}`
         });
-        console.log(result);
-        return result;
+
+        console.log(response);
+        return response;
+
     } catch (error) {
         console.log(error);
     }

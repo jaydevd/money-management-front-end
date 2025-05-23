@@ -1,8 +1,9 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import getCookie from "../../helpers/getCookie";
 import Pagination from "../common/Pagination";
 import useAddBorrower from './../../hooks/borrower/useAddBorrower';
-import useListBorrowers from './../../hooks/borrower/useListBorrowers';
 import useMakeTransaction from './../../hooks/borrower/useMakeTransaction';
 import useGetUsers from './../../hooks/transaction/useGetUsers';
 
@@ -15,7 +16,9 @@ const Borrowers = () => {
 
     const [page, setPage] = useState(1);
     const limit = 10; // items per page
-    const { borrowers, totalBorrowers } = useListBorrowers(page, limit);
+
+    const [borrowers, setBorrowers] = useState([]);
+    const [totalBorrowers, setTotalBorrowers] = useState(0);
 
     useEffect(() => {
         if (message != null) {
@@ -24,6 +27,28 @@ const Borrowers = () => {
             }, 3000);
         }
     }, [message]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const page = 1;
+            const limit = 10;
+
+            const token = getCookie('token');
+
+            const result = await axios.get(`http://localhost:5000/borrower/list?page=${page}&limit=${limit}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            const borrowers = result.data.data.borrowers;
+            const count = result.data.data.count;
+
+            setBorrowers(borrowers);
+            setTotalBorrowers(count);
+        }
+        fetchData();
+    }, [page, limit])
 
     const onAddBorrower = async data => {
         try {

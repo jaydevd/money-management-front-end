@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import getCookie from "../../helpers/getCookie";
 
 const useListLenders = (page, limit) => {
     const [lenders, setLenders] = useState([]);
@@ -9,11 +10,11 @@ const useListLenders = (page, limit) => {
         const fetchLenders = async () => {
             try {
 
-                const token = localStorage.getItem("token");
+                const token = getCookie("token");
 
                 const response = await axios.get(`http://localhost:5000/lender/list?page=${page}&limit=${limit}`, {
                     headers: {
-                        Authorization: `Bearer ${token}`
+                        authorization: `Bearer ${token}`
                     }
                 });
 

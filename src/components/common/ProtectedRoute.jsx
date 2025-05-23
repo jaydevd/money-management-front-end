@@ -6,12 +6,14 @@ const ProtectedRoute = ({ children }) => {
     const location = useLocation();
 
     if (!isAdmin()) {
+        console.log("admin not logged in");
         return <Navigate
             to="/auth/login"
             replace
             state={{ from: location, message: 'Please log in to continue.', styles: "bg-red-200 text-red-600" }}
         />;
     }
+    console.log("admin logged in");
 
     return children;
 };

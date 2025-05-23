@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import getCookie from '../../helpers/getCookie';
 import Pagination from '../common/Pagination';
 
 const Transactions = () => {
@@ -12,7 +13,7 @@ const Transactions = () => {
     useEffect(() => {
         const fetchData = async () => {
 
-            const token = localStorage.getItem('token');
+            const token = getCookie('token');
 
             const result = await axios.get(`http://localhost:5000/transaction/list?page=${page}&limit=${limit}`, {
                 headers: {
@@ -27,7 +28,7 @@ const Transactions = () => {
             setTotalTransactions(count);
         }
         fetchData();
-    }, [page])
+    }, [page, limit]);
 
     return (
         <div className="p-4 sm:p-6 text-white w-full">
