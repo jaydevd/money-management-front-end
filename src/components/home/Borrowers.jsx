@@ -11,7 +11,7 @@ const Borrowers = () => {
     const [showAddBorrower, setShowAddBorrower] = useState(false);
     const [showTransaction, setShowTransaction] = useState(false);
     const { register, handleSubmit } = useForm();
-    const users = useGetUsers();
+    const users = useGetUsers().filter(user => user.type === 'borrower');
     const [message, setMessage] = useState(null);
 
     const [page, setPage] = useState(1);
@@ -94,12 +94,23 @@ const Borrowers = () => {
                     >
                         Add borrower
                     </button>
-                    <button
-                        onClick={() => setShowTransaction(true)}
-                        className="bg-[#3a1c71] hover:bg-purple-800 text-white px-4 py-2 rounded-lg"
-                    >
-                        New transaction
-                    </button>
+                    {
+                        borrowers.length > 0 ? (
+                            <button
+                                onClick={() => setShowTransaction(true)}
+                                className="bg-[#3a1c71] hover:bg-purple-800 text-white px-4 py-2 rounded-lg"
+                            >
+                                New transaction
+                            </button>
+                        ) : (
+                            <button
+                                className="bg-[#3a1c71] opacity-50 text-white px-4 py-2 rounded-lg cursor-not-allowed"
+                                title='Add a borrower to make new transaction'
+                            >
+                                New transaction
+                            </button>
+                        )
+                    }
                 </div>
             </div>
             <div className="bg-[#f3f4f6] rounded-xl overflow-x-auto">
@@ -163,13 +174,17 @@ const Borrowers = () => {
                         <form onSubmit={handleSubmit(onTransaction)} className="space-y-3">
                             <select {...register("userId")} className="w-full px-5 py-3 rounded-2xl bg-[#1e1e2f] text-white">
                                 {
-                                    users && users.length > 0 ? (users.map((user) => {
-                                        return (
-                                            <option value={user.id}>{user.name + " " + user.surname}</option>
+                                    users &&
+                                        users.length > 0 ?
+                                        (
+                                            users.map((user) => {
+                                                return (
+                                                    <option key={user.id} value={user.id}>{user.name + " " + user.surname}</option>
+                                                )
+                                            })
+                                        ) : (
+                                            <option value="none" disabled>no users found</option>
                                         )
-                                    })) : (
-                                        <option value="none" disabled>no users found</option>
-                                    )
                                 }
                             </select>
                             <input {...register("date")} type="date" className="w-full px-5 py-3 rounded-2xl bg-[#1e1e2f] text-white" />

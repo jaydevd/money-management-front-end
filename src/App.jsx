@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
+import VerifyAdmin from "./pages/admin/VerifyAdmin";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import LogIn from "./pages/auth/LogIn";
 import ResetPassword from "./pages/auth/ResetPassword";
@@ -14,11 +15,22 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          } />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/invite/verify/:id/:token"
+            element={
+              <VerifyAdmin>
+                <LogIn />
+              </VerifyAdmin>
+            }
+          />
           <Route path="/auth" >
             <Route path="/auth/" element={<NotFound />} />
             <Route path="/auth/forgot-password" element={<ForgotPassword />} />

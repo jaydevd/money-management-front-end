@@ -4,7 +4,6 @@ const useLogIn = async (data) => {
     try {
 
         const response = await axios.post('http://localhost:5000/auth/login', data);
-        // console.log(response);
 
         const token = response.data.data.token;
         console.log('token: ', token);

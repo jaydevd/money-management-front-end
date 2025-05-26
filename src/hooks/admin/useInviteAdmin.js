@@ -7,7 +7,9 @@ const useInviteAdmin = async (body) => {
         const token = getCookie("token");
 
         const response = await axios.post('http://localhost:5000/admin/invite', body, {
-            headers: `Bearer ${token}`
+            headers: {
+                authorization: `Bearer ${token}`
+            }
         });
 
         console.log(response);

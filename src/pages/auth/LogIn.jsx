@@ -105,7 +105,7 @@ const LogIn = () => {
                             className={`w-full p-3 rounded-2xl placeholder-gray-400 border ${emailValue ? (isValidEmail ? 'border-green-700' : 'border-red-500') : 'border-gray-600'}`}
                             autoComplete="on"
                         />
-                        {errors.email || !isValidEmail ? (
+                        {emailValue && (errors.email || !isValidEmail) ? (
                             <p className="px-1 pt-1 text-sm text-red-400">{errors.email && errors.email.message || "Invalid email format"}</p>
                         ) : emailValue && (
                             <p className="px-1 pt-1 text-sm text-green-700">Looks good!</p>
@@ -120,7 +120,7 @@ const LogIn = () => {
                                 required: "Password is required",
                                 pattern: {
                                     value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/,
-                                    message: "One of the above validation is missing, please verify your password"
+                                    message: "One of the below validations is missing, please verify your password"
                                 },
                                 minLength: {
                                     value: 8,

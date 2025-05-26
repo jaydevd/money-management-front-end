@@ -80,7 +80,7 @@ const ResetPassword = () => {
                                 required: "Password is required",
                                 pattern: {
                                     value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/,
-                                    message: "One of the above validation is missing, please verify your password"
+                                    message: "One of the below validations is missing, please verify your password"
                                 },
                                 minLength: {
                                     value: 8,

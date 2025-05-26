@@ -6,7 +6,13 @@ import useListAdmins from './../../hooks/admin/useListAdmins';
 
 const Admins = () => {
     const [showInviteAdmin, setShowInviteAdmin] = useState(false);
-    const { register, handleSubmit } = useForm();
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors }
+    } = useForm();
+
     const [message, setMessage] = useState(null);
 
     const [page, setPage] = useState(1);
@@ -23,7 +29,7 @@ const Admins = () => {
 
     const onInviteAdmin = async data => {
         try {
-            // console.log("Add Lender Data:", data);
+            console.log("Invite Admin Data:", data);
             const response = await useInviteAdmin(data);
             // console.log(response);
             setMessage({ message: "Invitation sent!", type: 'green' });
@@ -32,6 +38,17 @@ const Admins = () => {
             console.log(error);
             setMessage({ message: "Unable to send invitation!", type: 'red' });
         }
+    };
+
+    const passwordValue = watch("password", "");
+    const isValidPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(passwordValue);
+
+    const passwordCriteria = {
+        length: passwordValue.length >= 8,
+        uppercase: /[A-Z]/.test(passwordValue),
+        lowercase: /[a-z]/.test(passwordValue),
+        digit: /[0-9]/.test(passwordValue),
+        special: /[^A-Za-z0-9]/.test(passwordValue),
     };
 
     return (
@@ -89,13 +106,45 @@ const Admins = () => {
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50 p-4">
                         <div className="bg-[#2a2a40] p-6 rounded-xl w-full max-w-md shadow-xl relative">
                             <button onClick={() => setShowInviteAdmin(false)} className="absolute top-5 right-5 text-white">✕</button>
-                            <h2 className="text-xl font-semibold mb-4">Add Lender</h2>
-                            <form onSubmit={handleSubmit(onInviteAdmin)} className="space-y-3">
-                                <input {...register("name")} placeholder="First Name" className="w-full rounded-2xl px-5 py-3 bg-[#1e1e2f] text-white" />
-                                <input {...register("surname")} placeholder="Last Name" className="w-full px-5 py-3 rounded-2xl bg-[#1e1e2f] text-white" />
-                                <input {...register("email")} placeholder="Emil address" className="w-full px-5 py-3 rounded-2xl bg-[#1e1e2f] text-white" />
-                                <input {...register("password")} placeholder="Password" type="password" className="w-full px-5 py-3 rounded-2xl bg-[#1e1e2f] text-white" />
-                                <button type="submit" className="w-full bg-gradient-to-r from-pink-500 to-purple-600 py-3 rounded-2xl">Submit</button>
+                            <h2 className="text-xl font-semibold mb-4">Invite Admin</h2>
+                            <form onSubmit={handleSubmit(onInviteAdmin)} className="space-y-2">
+                                <input {...register("name")} placeholder="First Name" className="w-full rounded-2xl px-5 py-4 bg-[#1e1e2f] text-white" />
+                                <input {...register("surname")} placeholder="Last Name" className="w-full px-5 py-4 rounded-2xl bg-[#1e1e2f] text-white" />
+                                <input {...register("email")} placeholder="Emil address" className="w-full px-5 py-4 rounded-2xl bg-[#1e1e2f] text-white" />
+                                <input
+                                    placeholder="Password"
+                                    type="password"
+                                    {...register("password", {
+                                        required: "Password is required",
+                                        pattern: {
+                                            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/,
+                                            message: "One of the below validations is missing, please verify your password"
+                                        },
+                                        minLength: {
+                                            value: 8,
+                                            message: "Password should be at least 8 characters long"
+                                        },
+                                        maxLength: {
+                                            value: 254,
+                                            message: "Password should be under 254 characters"
+                                        }
+                                    })}
+                                    className={`w-full px-5 py-4 rounded-2xl bg-[#1e1e2f] text-white ${passwordValue ? (isValidPassword ? 'border-green-500' : 'border-red-500') : 'border-gray-600'}`}
+                                />
+                                {passwordValue && errors.password ? (
+                                    <p className="px-1 pt-1 text-sm text-red-400">{errors.password.message}</p>
+                                ) : passwordValue && (
+                                    <p className="px-1 pt-1 text-sm text-green-400">Looks good!</p>
+                                )}
+                                <ul className="text-sm mt-2 space-y-1">
+                                    <li>Password should include:</li>
+                                    <li className={passwordCriteria.length ? 'text-green-700' : 'text-gray-400'}>✓ Minimum 8 characters</li>
+                                    <li className={passwordCriteria.uppercase ? 'text-green-700' : 'text-gray-400'}>✓ At least one uppercase letter</li>
+                                    <li className={passwordCriteria.lowercase ? 'text-green-700' : 'text-gray-400'}>✓ At least one lowercase letter</li>
+                                    <li className={passwordCriteria.digit ? 'text-green-700' : 'text-gray-400'}>✓ At least one number</li>
+                                    <li className={passwordCriteria.special ? 'text-green-700' : 'text-gray-400'}>✓ At least one special character</li>
+                                </ul>
+                                <button type="submit" className="w-full bg-gradient-to-r from-pink-500 to-purple-600 py-3 mt-2 rounded-2xl">Submit</button>
                             </form>
                         </div>
                     </div>

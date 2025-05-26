@@ -13,7 +13,7 @@ const Lenders = () => {
     const [showTransaction, setShowTransaction] = useState(false);
 
     const { register, handleSubmit } = useForm();
-    const users = useGetUsers();
+    const users = useGetUsers().filter(user => user.type === 'lender');
 
     const [lenders, setLenders] = useState([]);
     const [totalLenders, setTotalLenders] = useState(0);
@@ -98,12 +98,23 @@ const Lenders = () => {
                     >
                         Add lender
                     </button>
-                    <button
-                        onClick={() => setShowTransaction(true)}
-                        className="bg-[#3a1c71] hover:bg-purple-800 text-white px-4 py-2 rounded-lg"
-                    >
-                        New transaction
-                    </button>
+                    {
+                        lenders.length > 0 ? (
+                            <button
+                                onClick={() => setShowTransaction(true)}
+                                className="bg-[#3a1c71] hover:bg-purple-800 text-white px-4 py-2 rounded-lg"
+                            >
+                                New transaction
+                            </button>
+                        ) : (
+                            <button
+                                className="bg-[#3a1c71] opacity-50 text-white px-4 py-2 rounded-lg cursor-not-allowed"
+                                title='Add a lender to make new transaction'
+                            >
+                                New transaction
+                            </button>
+                        )
+                    }
                 </div>
             </div>
             <div className="bg-[#f3f4f6] rounded-xl overflow-x-auto">
@@ -161,7 +172,7 @@ const Lenders = () => {
                 </div>
             )}
 
-            {showTransaction && (
+            {showTransaction && users.length > 0 && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50 p-4">
                     <div className="bg-[#2a2a40] p-6 rounded-xl w-full max-w-md shadow-xl relative">
                         <button onClick={() => setShowTransaction(false)} className="absolute top-5 right-5 text-white">✕</button>
@@ -169,12 +180,15 @@ const Lenders = () => {
                         <form onSubmit={handleSubmit(onTransaction)} className="space-y-3">
                             <select {...register("userId")} className="w-full px-5 py-3 rounded-2xl bg-[#1e1e2f] text-white">
                                 {
-                                    users && users.length > 0 ? (users.map((user) => {
-                                        return (
-                                            <option value={user.id}>{user.name + " " + user.surname}</option>
-                                        )
-                                    })) : (
-                                        <option value="none" disabled>no users found</option>
+                                    users &&
+                                        users.length > 0 ? (
+                                        users.map((user) => {
+                                            return (
+                                                <option value={user.id}>{user.name + " " + user.surname}</option>
+                                            )
+                                        })
+                                    ) : (
+                                        <option value="no users found" disabled>no users found</option>
                                     )
                                 }
                             </select>

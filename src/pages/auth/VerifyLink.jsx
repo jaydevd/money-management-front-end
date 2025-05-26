@@ -12,14 +12,13 @@ const VerifyLink = ({ children }) => {
 
         } catch (error) {
             console.log(error);
-            if (!error.response.ok) {
-                navigate('/auth/forgot-password', { state: { message: "link is not valid. Try again", styles: "bg-red-200 text-red-600" } });
+            if (error.response.status !== 200) {
+                navigate('/auth/forgot-password', { state: { message: "link is not valid. Try again", type: "red" } });
             }
         }
     }
     verifyLink();
     return children;
-
 }
 
 export default VerifyLink;
