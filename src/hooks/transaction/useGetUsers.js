@@ -11,7 +11,7 @@ const useGetUsers = () => {
             try {
 
                 const token = getCookie("token");
-                const response = await axios.get(`http://localhost:5000/drop-down/users`, {
+                const response = await axios.get(`https://money-management-f0al.onrender.com/drop-down/users`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

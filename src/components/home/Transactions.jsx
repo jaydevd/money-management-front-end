@@ -15,7 +15,7 @@ const Transactions = () => {
 
             const token = getCookie('token');
 
-            const result = await axios.get(`http://localhost:5000/transaction/list?page=${page}&limit=${limit}`, {
+            const result = await axios.get(`https://money-management-f0al.onrender.com/transaction/list?page=${page}&limit=${limit}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

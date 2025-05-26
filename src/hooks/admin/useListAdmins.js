@@ -11,7 +11,7 @@ const useListAdmins = (page, limit) => {
 
             const token = getCookie("token");
 
-            const response = await axios.get(`http://localhost:5000/admin/list?page=${page}&limit=${limit}`, {
+            const response = await axios.get(`https://money-management-f0al.onrender.com/admin/list?page=${page}&limit=${limit}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

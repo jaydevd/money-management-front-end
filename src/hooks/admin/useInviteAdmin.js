@@ -6,7 +6,7 @@ const useInviteAdmin = async (body) => {
 
         const token = getCookie("token");
 
-        const response = await axios.post('http://localhost:5000/admin/invite', body, {
+        const response = await axios.post('https://money-management-f0al.onrender.com/admin/invite', body, {
             headers: {
                 authorization: `Bearer ${token}`
             }

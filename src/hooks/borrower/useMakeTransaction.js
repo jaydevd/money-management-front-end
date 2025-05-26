@@ -8,7 +8,7 @@ const useMakeTransaction = async (body) => {
 
         const token = getCookie("token");
 
-        const response = await axios.post('http://localhost:5000/borrower/transaction/pay', body, {
+        const response = await axios.post('https://money-management-f0al.onrender.com/borrower/transaction/pay', body, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

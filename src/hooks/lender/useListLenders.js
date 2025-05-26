@@ -12,7 +12,7 @@ const useListLenders = (page, limit) => {
 
                 const token = getCookie("token");
 
-                const response = await axios.get(`http://localhost:5000/lender/list?page=${page}&limit=${limit}`, {
+                const response = await axios.get(`https://money-management-f0al.onrender.com/lender/list?page=${page}&limit=${limit}`, {
                     headers: {
                         authorization: `Bearer ${token}`
                     }

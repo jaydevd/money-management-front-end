@@ -6,7 +6,7 @@ const useDeleteAdmin = async (body) => {
 
         const token = getCookie("token");
 
-        const response = await axios.post('http://localhost:5000/admin/delete', body, {
+        const response = await axios.post('https://money-management-f0al.onrender.com/admin/delete', body, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

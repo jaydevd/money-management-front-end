@@ -35,7 +35,7 @@ const Borrowers = () => {
 
             const token = getCookie('token');
 
-            const result = await axios.get(`http://localhost:5000/borrower/list?page=${page}&limit=${limit}`, {
+            const result = await axios.get(`https://money-management-f0al.onrender.com/borrower/list?page=${page}&limit=${limit}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
