@@ -10,8 +10,10 @@ const VerifyAdmin = ({ children }) => {
 
     const verifyAdmin = async () => {
         try {
+            // const baseUrl = 'https://money-management-f0al.onrender.com';
+            const baseUrl = 'http://localhost:5000';
 
-            const response = await axios.get(`http://localhost:5000/admin/verify/${id}/${token}`);
+            const response = await axios.get(`${baseUrl}/admin/verify/${id}/${token}`);
 
         } catch (error) {
             console.log(error);

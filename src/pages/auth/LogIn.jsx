@@ -9,16 +9,23 @@ const LogIn = () => {
     const [state, setState] = useState(location.state);
     const [error, setError] = useState(null);
 
+    const [isSubmitted, setIsSubmitted] = useState(false);
+
     useEffect(() => {
-        setTimeout(() => {
-            setState(null);
-        }, 3000);
+        if (state !== null) {
+            setTimeout(() => {
+                setState(null);
+            }, 3000);
+        }
     }, [state]);
 
     useEffect(() => {
-        setTimeout(() => {
-            setError(null);
-        }, 3000);
+        console.log("error:", error);
+        if (error != null) {
+            setTimeout(() => {
+                setError(null);
+            }, 3000);
+        }
     }, [error]);
 
     const {
@@ -31,21 +38,25 @@ const LogIn = () => {
     const onSubmit = async (data) => {
         try {
 
-            const response = await useLogIn(data);
-            navigate('/');
+            setIsSubmitted(true);
 
-        } catch (error) {
-            console.log(error);
-            if (error.response) {
-                if (error.response.status === 401) {
-                    setError('Invalid username or password.');
-                } else {
-                    setError('Something went wrong. Please try again.');
-                }
+            const response = await useLogIn(data);
+            console.log('response: ', response);
+
+            if (response.data.status === 200) {
+                navigate('/');
+            }
+            else if (response.data.status !== 200) {
+                console.log('error.response: ', response.data.status);
+                setError('Invalid username or password.');
             } else {
                 // No response received (e.g., network error)
                 setError('Network error. Please try again.');
             }
+
+        } catch (error) {
+            console.log(error);
+            setError('Something went wrong. Please try again.');
         }
     }
 
@@ -102,14 +113,15 @@ const LogIn = () => {
                                     message: "Entered value does not match email format",
                                 },
                             })}
-                            className={`w-full p-3 rounded-2xl placeholder-gray-400 border ${emailValue ? (isValidEmail ? 'border-green-700' : 'border-red-500') : 'border-gray-600'}`}
+                            className={`w-full p-3 rounded-2xl placeholder-gray-400 border ${isSubmitted && emailValue ? (isValidEmail ? 'border-green-700' : 'border-red-500') : 'border-gray-600'}`}
                             autoComplete="on"
                         />
-                        {emailValue && (errors.email || !isValidEmail) ? (
+                        {isSubmitted && emailValue && (errors.email || !isValidEmail) ? (
                             <p className="px-1 pt-1 text-sm text-red-400">{errors.email && errors.email.message || "Invalid email format"}</p>
-                        ) : emailValue && (
+                        ) : isSubmitted && emailValue && (
                             <p className="px-1 pt-1 text-sm text-green-700">Looks good!</p>
-                        )}
+                        )
+                        }
                     </div>
                     <div className="mb-4">
                         <label htmlFor="password" className="block text-gray-800">Password</label>
@@ -131,22 +143,24 @@ const LogIn = () => {
                                     message: "Password should be under 254 characters"
                                 }
                             })}
-                            className={`w-full p-3 rounded-2xl placeholder-gray-400 border ${passwordValue ? (isValidPassword ? 'border-green-700' : 'border-red-500') : 'border-gray-600'}`}
+                            className={`w-full p-3 rounded-2xl placeholder-gray-400 border ${isSubmitted && passwordValue ? (isValidPassword ? 'border-green-700' : 'border-red-500') : 'border-gray-600'}`}
                             autoComplete="on"
                         />
-                        {errors.password ? (
+                        {
+                            isSubmitted && errors.password &&
                             <p className="px-1 pt-1 text-sm text-red-400">{errors.password.message}</p>
-                        ) : passwordValue && (
-                            <p className="px-1 pt-1 text-sm text-green-700">Looks good!</p>
-                        )}
-                        <ul className="text-sm mt-2 space-y-1">
-                            <li>Password should include:</li>
-                            <li className={passwordCriteria.length ? 'text-green-700' : 'text-gray-400'}>✓ Minimum 8 characters</li>
-                            <li className={passwordCriteria.uppercase ? 'text-green-700' : 'text-gray-400'}>✓ At least one uppercase letter</li>
-                            <li className={passwordCriteria.lowercase ? 'text-green-700' : 'text-gray-400'}>✓ At least one lowercase letter</li>
-                            <li className={passwordCriteria.digit ? 'text-green-700' : 'text-gray-400'}>✓ At least one number</li>
-                            <li className={passwordCriteria.special ? 'text-green-700' : 'text-gray-400'}>✓ At least one special character</li>
-                        </ul>
+                        }
+                        {
+                            isSubmitted &&
+                            < ul className="text-sm mt-2 space-y-1">
+                                <li>Password should include:</li>
+                                <li className={passwordCriteria.length ? 'text-green-700' : 'text-gray-400'}>✓ Minimum 8 characters</li>
+                                <li className={passwordCriteria.uppercase ? 'text-green-700' : 'text-gray-400'}>✓ At least one uppercase letter</li>
+                                <li className={passwordCriteria.lowercase ? 'text-green-700' : 'text-gray-400'}>✓ At least one lowercase letter</li>
+                                <li className={passwordCriteria.digit ? 'text-green-700' : 'text-gray-400'}>✓ At least one number</li>
+                                <li className={passwordCriteria.special ? 'text-green-700' : 'text-gray-400'}>✓ At least one special character</li>
+                            </ul>
+                        }
                     </div>
                     <div className="mb-4 flex items-center">
                         <input type="checkbox" id="remember" name="remember" className="text-red-500" />
@@ -157,7 +171,7 @@ const LogIn = () => {
                     </div>
                     <button type="submit" className="bg-red-500 hover:bg-blue-600 text-white font-semibold rounded-2xl py-2 px-4 w-full">Login</button>
                 </form>
-            </div>
+            </div >
         </div >
     )
 }

@@ -6,11 +6,15 @@ const useAddLender = async (body) => {
 
         const token = getCookie("token");
 
-        const response = await axios.post('https://money-management-f0al.onrender.com/lender/add', body, {
+        // const baseUrl = 'https://money-management-f0al.onrender.com';
+        const baseUrl = 'http://localhost:5000';
+
+        const response = await axios.post(`${baseUrl}/lender/add`, body, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         });
+
         return response;
 
     } catch (error) {

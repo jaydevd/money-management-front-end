@@ -8,7 +8,10 @@ const VerifyLink = ({ children }) => {
     const verifyLink = async () => {
         try {
 
-            const response = await axios.get(`http://localhost:5000/auth/verify/${id}/${token}`);
+            // const baseUrl = 'https://money-management-f0al.onrender.com';
+            const baseUrl = 'http://localhost:5000';
+
+            const response = await axios.get(`${baseUrl}/auth/verify/${id}/${token}`);
 
         } catch (error) {
             console.log(error);

@@ -6,7 +6,10 @@ const useAddBorrower = async (body) => {
 
         const token = getCookie("token");
 
-        const response = await axios.post('https://money-management-f0al.onrender.com/borrower/add', body, {
+        // const baseUrl = 'https://money-management-f0al.onrender.com';
+        const baseUrl = 'http://localhost:5000';
+
+        const response = await axios.post(`${baseUrl}/borrower/add`, body, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

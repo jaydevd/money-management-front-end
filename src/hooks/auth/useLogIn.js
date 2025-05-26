@@ -3,7 +3,11 @@ import axios from "axios";
 const useLogIn = async (data) => {
     try {
 
-        const response = await axios.post('https://money-management-f0al.onrender.com/auth/login', data);
+
+        // const baseUrl = 'https://money-management-f0al.onrender.com';
+        const baseUrl = 'http://localhost:5000';
+
+        const response = await axios.post(`${baseUrl}/auth/login`, data);
 
         const token = response.data.data.token;
         console.log('token: ', token);
@@ -22,6 +26,8 @@ const useLogIn = async (data) => {
     } catch (error) {
         console.log(error);
         sessionStorage.clear();
+
+        return error.response;
     }
 }
 

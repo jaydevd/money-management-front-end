@@ -160,13 +160,67 @@ const Lenders = () => {
                         <button onClick={() => setShowAddLender(false)} className="absolute top-5 right-5 text-white">✕</button>
                         <h2 className="text-xl font-semibold mb-4">Add Lender</h2>
                         <form onSubmit={handleSubmit(onAddLender)} className="space-y-2">
-                            <input {...register("name")} placeholder="First Name" className="w-full rounded-2xl px-5 py-3 bg-[#1e1e2f] text-white" />
-                            <input {...register("surname")} placeholder="Last Name" className="w-full px-5 py-3 rounded-2xl bg-[#1e1e2f] text-white" />
-                            <textarea {...register("address")} placeholder="Address" className="w-full mb-0 px-5 py-3 rounded-2xl bg-[#1e1e2f] text-white resize-none" />
-                            <input {...register("amountBorrowed")} placeholder="Amount Borrowed" type="number" className="w-full px-5 py-3 rounded-2xl bg-[#1e1e2f] text-white" />
-                            <input {...register("interest")} placeholder="Rate of interest" type="number" className="w-full px-5 py-3 rounded-2xl bg-[#1e1e2f] text-white" />
-                            <input {...register("period")} placeholder="Time period to repay the amount" type="number" className="w-full px-5 py-3 rounded-2xl bg-[#1e1e2f] text-white" />
-                            <button type="submit" className="w-full bg-gradient-to-r from-pink-500 to-purple-600 py-3 mt-3 rounded-2xl">Submit</button>
+                            <input
+                                {...register("name", {
+                                    required: true,
+                                    message: "name is required"
+                                })}
+                                placeholder="First Name"
+                                className="w-full rounded-2xl px-5 py-3 bg-[#1e1e2f] text-white"
+                                required
+                                autoComplete='off'
+                            />
+                            <input
+                                {...register("surname")}
+                                placeholder="Last Name"
+                                className="w-full px-5 py-3 rounded-2xl bg-[#1e1e2f] text-white"
+                                autoComplete='off'
+                            />
+                            <textarea
+                                {...register("address")}
+                                placeholder="Address"
+                                className="w-full mb-0 px-5 py-3 rounded-2xl bg-[#1e1e2f] text-white resize-none"
+                            />
+                            <input
+                                {...register("amountBorrowed", {
+                                    min: {
+                                        value: 1,
+                                        message: "amount should be greater than or equal to Rs. 1"
+                                    }
+                                })}
+                                placeholder="Amount Borrowed"
+                                type="number"
+                                className="w-full px-5 py-3 rounded-2xl bg-[#1e1e2f] text-white"
+                                required
+                            />
+                            <input
+                                {...register("interest", {
+                                    min: {
+                                        value: 0,
+                                        message: "Interest can't be negative"
+                                    }
+                                })}
+                                placeholder="Rate of interest"
+                                type="number"
+                                className="w-full px-5 py-3 rounded-2xl bg-[#1e1e2f] text-white"
+                                required
+                            />
+                            <input
+                                {...register("period", {
+                                    min: {
+                                        value: 0.1,
+                                        message: "period should be grater than 0."
+                                    }
+                                })}
+                                placeholder="Time period to repay the amount in years"
+                                type="number"
+                                className="w-full px-5 py-3 rounded-2xl bg-[#1e1e2f] text-white"
+                                required
+                            />
+                            <button
+                                type="submit"
+                                className="w-full bg-gradient-to-r from-pink-500 to-purple-600 py-3 mt-3 rounded-2xl"
+                            >Submit</button>
                         </form>
                     </div>
                 </div>

@@ -7,7 +7,10 @@ const useLogOut = async () => {
         const token = getCookie("token");
         console.log(token);
 
-        const response = await axios.post("https://money-management-f0al.onrender.com/auth/logout", null, {
+        // const baseUrl = 'https://money-management-f0al.onrender.com';
+        const baseUrl = 'http://localhost:5000';
+
+        const response = await axios.post(`${baseUrl}/auth/logout`, null, {
             headers: {
                 authorization: `Bearer ${token}`
             }

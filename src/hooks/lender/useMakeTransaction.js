@@ -7,8 +7,10 @@ const useMakeTransaction = async (body) => {
         body['date'] = Math.floor(+Date.parse(body.date) / 1000);
 
         const token = getCookie("token");
+        // const baseUrl = 'https://money-management-f0al.onrender.com';
+        const baseUrl = 'http://localhost:5000';
 
-        const response = await axios.post('https://money-management-f0al.onrender.com/lender/transaction/receive', body, {
+        const response = await axios.post(`${baseUrl}/lender/transaction/receive`, body, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
