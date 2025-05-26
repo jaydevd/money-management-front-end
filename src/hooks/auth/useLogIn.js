@@ -3,7 +3,7 @@ import axios from "axios";
 const useLogIn = async (data) => {
     try {
 
-        const response = await axios.post('http://localhost:5000/auth/login', data);
+        const response = await axios.post('https://money-management-f0al.onrender.com/auth/login', data);
 
         const token = response.data.data.token;
         console.log('token: ', token);
